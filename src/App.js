@@ -1,28 +1,51 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, {Component} from 'react';
+import Gameboard from './Gameboard';
+import {Container, Row, Col} from 'react-bootstrap';  
+import {h3StyleLeft, h3StyleRight} from './styles';
 
-class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
-    );
+export default class App extends Component {
+
+  state = {
+    currentTurn: "X",
+    playerXScore: 0,
+    playerOScore: 0
+  }
+
+  wrapStyle = {
+    marginTop: "200px"
+  }
+
+
+  switchTurn = () => {
+    let currentTurn;
+    if (this.state.currentTurn === "X"){
+      currentTurn = "O";
+      this.setState({currentTurn});
+    } else {
+      currentTurn = "X";
+      this.setState({currentTurn});
+    }
+  }
+
+  updateScore = (field) => {
+    this.setState({
+      [field]: this.state[field] + 1
+    })
+  }
+
+  render(){
+    return(
+      <Container>
+        <div style={this.wrapStyle}>
+        <h3 style={h3StyleLeft}>player O score: {this.state.playerOScore}</h3><h3 style={h3StyleRight}>player X Score: {this.state.playerXScore}</h3><br/>
+          <Row>
+            <Col>
+              <Gameboard updateScore={this.updateScore} switchTurn= {this.switchTurn} currentTurn= {this.state.currentTurn}/>
+            </Col>
+          </Row>
+
+        </div>
+      </Container>  
+    )
   }
 }
-
-export default App;
